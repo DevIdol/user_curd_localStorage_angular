@@ -9,5 +9,6 @@ export interface User {
   role: string;
   hobby: string[];
   dob: Date;
+  desc: string;
   createdAt: Date;
 }

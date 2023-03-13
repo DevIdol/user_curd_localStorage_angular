@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,23 +14,22 @@ export class LoginComponent {
   hide: boolean = true;
   invalidUser!: string;
 
-  constructor(private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [
         Validators.required,
         Validators.email,
         Validators.pattern('[a-z0-9].+@[a-z]+.[a-z]{2,3}'),
       ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{5,8}$'
-        ),
-      ]),
+      password: new FormControl('', [Validators.required]),
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/user-list']);
+    }
+  }
 
   checkUser(email: string, password: string): boolean {
     let users: any[] = JSON.parse(localStorage.getItem('users') || '[]');
@@ -44,8 +46,13 @@ export class LoginComponent {
         )
       ) {
         this.router.navigate(['/user-list']);
+        localStorage.setItem('isLoggedIn', 'true');
       } else {
-        this.invalidUser = 'Invalid email or password.';
+        Swal.fire({
+          title: 'Warning',
+          text: 'Invalid email or password.',
+          icon: 'info',
+        });
       }
     }
   }

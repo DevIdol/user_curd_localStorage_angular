@@ -1,0 +1,168 @@
+<div class="register-container">
+  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" novalidate>
+    <h2>Edit User</h2>
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Name" />
+      <mat-error
+        *ngIf="
+          editUserForm.controls['name'].invalid &&
+          (editUserForm.controls['name'].dirty ||
+            editUserForm.controls['name'].touched)
+        "
+      >
+        Name is required and must be between 3 and 40 characters long and can
+        only contain letters and periods.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="email" placeholder="Email" />
+      <mat-error
+        *ngIf="
+          editUserForm.controls['email'].invalid &&
+          (editUserForm.controls['email'].dirty ||
+            editUserForm.controls['email'].touched)
+        "
+      >
+        Please enter a valid email address.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        [type]="hide ? 'password' : 'text'"
+      />
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{ hide ? "visibility" : "visibility_off" }}
+      </mat-icon>
+      <mat-error *ngIf="editUserForm.hasError('passwordMismatch')"
+        >Passwords do not match</mat-error
+      >
+      <mat-error
+        *ngIf="
+          editUserForm.get('password')?.invalid &&
+          (editUserForm.get('password')?.dirty ||
+            editUserForm.get('password')?.touched)
+        "
+      >
+        Please enter a valid password. It should have at least 5-8 characters,
+        one uppercase letter, one lowercase letter, one number, and one special
+        character.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        formControlName="confirmPass"
+        [type]="hide ? 'password' : 'text'"
+      />
+      <mat-error *ngIf="editUserForm.hasError('passwordMismatch')"
+        >Passwords do not match</mat-error
+      >
+    </mat-form-field>
+
+    <mat-radio-group formControlName="gender" required>
+      <mat-label>Select Gender</mat-label>
+      <br />
+      <mat-radio-button value="male">Male</mat-radio-button>
+      <mat-radio-button value="female">Female</mat-radio-button>
+    </mat-radio-group>
+    <mat-error
+      *ngIf="
+        editUserForm.controls['gender'].invalid &&
+        (editUserForm.controls['gender'].dirty ||
+          editUserForm.controls['gender'].touched)
+      "
+    >
+      Please select a gender.
+    </mat-error>
+    <mat-form-field appearance="fill">
+      <mat-label>Team</mat-label>
+      <mat-select formControlName="team">
+        <mat-option value="Wordpress">Wordpress</mat-option>
+        <mat-option value="Java">Java</mat-option>
+        <mat-option value="Php">Php</mat-option>
+        <mat-option value="Nodejs">Nodejs</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          editUserForm.controls['team'].invalid &&
+          (editUserForm.controls['team'].dirty ||
+            editUserForm.controls['team'].touched)
+        "
+      >
+        Team is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select formControlName="role" placeholder="Role">
+        <mat-option *ngFor="let role of roles" [value]="role.value">{{
+          role.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          editUserForm.controls['role'].invalid &&
+          (editUserForm.controls['role'].dirty ||
+            editUserForm.controls['role'].touched)
+        "
+      >
+        Role is required.
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <mat-label>Select Hobby</mat-label>
+      <br />
+      <mat-checkbox
+        *ngFor="let hobby of hobbies; let i = index"
+        [value]="hobby.value"
+        [checked]="userData.hobby && userData.hobby.includes(hobby.value)"
+        (change)="onCheckboxChange($event)"
+        formArrayName="hobby"
+      >
+        {{ hobby.value }}
+      </mat-checkbox>
+    </div>
+    <mat-error
+      class="check-box-error"
+      *ngIf="editUserForm.controls['hobby'].invalid  &&
+           editUserForm.controls['hobby'].errors?.['required']"
+    >
+      Checkbox is required, select at least one value.
+    </mat-error>
+    <mat-form-field appearance="fill">
+      <mat-label>Date of Birth</mat-label>
+      <input matInput [matDatepicker]="dob" formControlName="dob" required />
+      <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+      <mat-datepicker #dob></mat-datepicker>
+      <mat-error
+        *ngIf="
+          editUserForm.controls['dob'].invalid &&
+          (editUserForm.controls['dob'].dirty ||
+            editUserForm.controls['dob'].touched)
+        "
+      >
+        Please select a valid date of birth.
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!editUserForm.valid"
+    >
+      Update
+    </button>
+    <div class="form-footer">
+      <p></p>
+      <h3><a routerLink="/user-list">Back</a></h3>
+    </div>
+  </form>
+</div>

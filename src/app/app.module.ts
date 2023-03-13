@@ -18,6 +18,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
 import { RegisterComponent } from './components/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +28,7 @@ import { DATE_FORMAT } from './services/date.service';
 import { EditUserComponent } from './components/users/edit-user/edit-user.component';
 import { UserListComponent } from './components/users/user-list/user-list.component';
 import { ConfirmDialogComponent } from './components/users/confirm-dialog/confirm-dialog.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { ConfirmDialogComponent } from './components/users/confirm-dialog/confir
     EditUserComponent,
     UserListComponent,
     ConfirmDialogComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { ConfirmDialogComponent } from './components/users/confirm-dialog/confir
     MatNativeDateModule,
     MatButtonModule,
     MatSortModule,
+    MatPaginatorModule,
     MatTableModule,
     MatDialogModule,
   ],

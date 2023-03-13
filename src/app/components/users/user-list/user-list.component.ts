@@ -4,6 +4,7 @@ import { User } from 'src/app/interfaces/user.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-user-list',
@@ -27,6 +28,8 @@ export class UserListComponent implements OnInit {
   ];
 
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
 
   constructor(public dialog: MatDialog) {
     const usersData = localStorage.getItem('users');
@@ -42,6 +45,7 @@ export class UserListComponent implements OnInit {
       this.userData = JSON.parse(users);
     }
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   onDelete(user: User): void {
